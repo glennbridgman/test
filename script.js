@@ -7,20 +7,20 @@ const GOBLINS = "goblin";
 
 const symbols = {
   [UNICORNS]: {
-    king: "♔",
-    queen: "♕",
-    rook: "♖",
-    bishop: "♗",
-    knight: "♘",
-    pawn: "♙",
+    king: "🦄K",
+    queen: "🦄Q",
+    rook: "🦄R",
+    bishop: "🦄B",
+    knight: "🦄N",
+    pawn: "🦄P",
   },
   [GOBLINS]: {
-    king: "♚",
-    queen: "♛",
-    rook: "♜",
-    bishop: "♝",
-    knight: "♞",
-    pawn: "♟",
+    king: "👺K",
+    queen: "👺Q",
+    rook: "👺R",
+    bishop: "👺B",
+    knight: "👺N",
+    pawn: "👺P",
   },
 };
 
