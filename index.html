@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Basic Pong</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      background: #10121a;
+      color: #eaf0ff;
+    }
+
+    .game-shell {
+      text-align: center;
+    }
+
+    canvas {
+      border: 3px solid #eaf0ff;
+      border-radius: 8px;
+      background: #0a0d13;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+    }
+
+    p {
+      margin-top: 0.75rem;
+      font-size: 0.95rem;
+      opacity: 0.9;
+    }
+  </style>
+</head>
+<body>
+  <main class="game-shell">
+    <h1>Basic Pong</h1>
+    <canvas id="pong" width="800" height="500" aria-label="Pong game board"></canvas>
+    <p>Move your paddle with <strong>W</strong> and <strong>S</strong>. First to 7 wins.</p>
+  </main>
+
+  <script>
+    const canvas = document.getElementById('pong');
+    const ctx = canvas.getContext('2d');
+
+    const state = {
+      width: canvas.width,
+      height: canvas.height,
+      winningScore: 7,
+      playerScore: 0,
+      aiScore: 0,
+      paused: false,
+      winner: null,
+      keys: { w: false, s: false }
+    };
+
+    const paddle = {
+      width: 14,
+      height: 95,
+      speed: 6,
+      playerY: (state.height - 95) / 2,
+      aiY: (state.height - 95) / 2
+    };
+
+    const ball = {
+      size: 14,
+      x: state.width / 2,
+      y: state.height / 2,
+      speedX: 4.5,
+      speedY: 2.8,
+      maxSpeedY: 6
+    };
+
+    function resetBall(direction = 1) {
+      ball.x = state.width / 2;
+      ball.y = state.height / 2;
+      ball.speedX = 4.5 * direction;
+      ball.speedY = (Math.random() * 4) - 2;
+      state.paused = true;
+      setTimeout(() => {
+        state.paused = false;
+      }, 700);
+    }
+
+    function drawRect(x, y, w, h, color = '#eaf0ff') {
+      ctx.fillStyle = color;
+      ctx.fillRect(x, y, w, h);
+    }
+
+    function drawCenterLine() {
+      const segmentHeight = 24;
+      const gap = 16;
+      for (let y = 0; y < state.height; y += segmentHeight + gap) {
+        drawRect(state.width / 2 - 2, y, 4, segmentHeight, '#66708a');
+      }
+    }
+
+    function drawScore() {
+      ctx.fillStyle = '#eaf0ff';
+      ctx.font = 'bold 38px Arial';
+      ctx.fillText(state.playerScore, state.width * 0.25, 55);
+      ctx.fillText(state.aiScore, state.width * 0.75, 55);
+
+      if (state.winner) {
+        ctx.font = 'bold 42px Arial';
+        ctx.textAlign = 'center';
+        ctx.fillText(`${state.winner} wins!`, state.width / 2, state.height / 2 - 20);
+        ctx.font = '24px Arial';
+        ctx.fillText('Press Space to restart', state.width / 2, state.height / 2 + 24);
+        ctx.textAlign = 'start';
+      }
+    }
+
+    function updatePlayer() {
+      if (state.keys.w) {
+        paddle.playerY -= paddle.speed;
+      }
+      if (state.keys.s) {
+        paddle.playerY += paddle.speed;
+      }
+      paddle.playerY = Math.max(0, Math.min(state.height - paddle.height, paddle.playerY));
+    }
+
+    function updateAi() {
+      const paddleCenter = paddle.aiY + paddle.height / 2;
+      const target = ball.y;
+      const diff = target - paddleCenter;
+      const followSpeed = 4.3;
+
+      if (Math.abs(diff) > followSpeed) {
+        paddle.aiY += Math.sign(diff) * followSpeed;
+      } else {
+        paddle.aiY += diff;
+      }
+
+      paddle.aiY = Math.max(0, Math.min(state.height - paddle.height, paddle.aiY));
+    }
+
+    function checkPaddleCollision(px, py) {
+      return (
+        ball.x < px + paddle.width &&
+        ball.x + ball.size > px &&
+        ball.y < py + paddle.height &&
+        ball.y + ball.size > py
+      );
+    }
+
+    function handleCollision(px, py, direction) {
+      const relativeIntersectY = (py + paddle.height / 2) - (ball.y + ball.size / 2);
+      const normalized = relativeIntersectY / (paddle.height / 2);
+      const bounce = normalized * ball.maxSpeedY;
+      ball.speedX = Math.abs(ball.speedX) * direction;
+      ball.speedY = -bounce;
+      ball.x = direction > 0 ? px + paddle.width : px - ball.size;
+    }
+
+    function updateBall() {
+      if (state.paused || state.winner) return;
+
+      ball.x += ball.speedX;
+      ball.y += ball.speedY;
+
+      if (ball.y <= 0 || ball.y + ball.size >= state.height) {
+        ball.speedY *= -1;
+        ball.y = Math.max(0, Math.min(state.height - ball.size, ball.y));
+      }
+
+      const playerX = 24;
+      const aiX = state.width - paddle.width - 24;
+
+      if (checkPaddleCollision(playerX, paddle.playerY)) {
+        handleCollision(playerX, paddle.playerY, 1.05);
+      }
+
+      if (checkPaddleCollision(aiX, paddle.aiY)) {
+        handleCollision(aiX, paddle.aiY, -1.05);
+      }
+
+      if (ball.x + ball.size < 0) {
+        state.aiScore += 1;
+        evaluateScore();
+        resetBall(1);
+      }
+
+      if (ball.x > state.width) {
+        state.playerScore += 1;
+        evaluateScore();
+        resetBall(-1);
+      }
+    }
+
+    function evaluateScore() {
+      if (state.playerScore >= state.winningScore) {
+        state.winner = 'Player';
+      } else if (state.aiScore >= state.winningScore) {
+        state.winner = 'Computer';
+      }
+    }
+
+    function draw() {
+      drawRect(0, 0, state.width, state.height, '#0a0d13');
+      drawCenterLine();
+      drawRect(24, paddle.playerY, paddle.width, paddle.height);
+      drawRect(state.width - paddle.width - 24, paddle.aiY, paddle.width, paddle.height);
+      drawRect(ball.x, ball.y, ball.size, ball.size);
+      drawScore();
+    }
+
+    function loop() {
+      updatePlayer();
+      updateAi();
+      updateBall();
+      draw();
+      requestAnimationFrame(loop);
+    }
+
+    function restartGame() {
+      state.playerScore = 0;
+      state.aiScore = 0;
+      state.winner = null;
+      paddle.playerY = (state.height - paddle.height) / 2;
+      paddle.aiY = (state.height - paddle.height) / 2;
+      resetBall(Math.random() > 0.5 ? 1 : -1);
+    }
+
+    window.addEventListener('keydown', (event) => {
+      const key = event.key.toLowerCase();
+      if (key === 'w') state.keys.w = true;
+      if (key === 's') state.keys.s = true;
+
+      if (event.code === 'Space' && state.winner) {
+        restartGame();
+      }
+    });
+
+    window.addEventListener('keyup', (event) => {
+      const key = event.key.toLowerCase();
+      if (key === 'w') state.keys.w = false;
+      if (key === 's') state.keys.s = false;
+    });
+
+    resetBall(Math.random() > 0.5 ? 1 : -1);
+    loop();
+  </script>
+</body>
+</html>
