@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Browser Pong</title>
+  <style>
+    :root { color-scheme: dark; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      background: #111;
+      font-family: Arial, sans-serif;
+      color: #fff;
+    }
+    .game-wrap { text-align: center; }
+    canvas {
+      border: 2px solid #fff;
+      background: #000;
+      cursor: none;
+      display: block;
+      margin: 0 auto;
+    }
+    p { margin: 10px 0 0; opacity: 0.85; }
+  </style>
+</head>
+<body>
+  <div class="game-wrap">
+    <h1>Pong</h1>
+    <canvas id="pong" width="800" height="600" aria-label="Pong game"></canvas>
+    <p>Move your mouse up/down over the canvas to control the left paddle.</p>
+  </div>
+  <script src="pong.js"></script>
+</body>
+</html>
