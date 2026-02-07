@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Unicorns vs Goblins</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="game-shell">
+      <h1>🦄 Unicorns vs 👺 Goblins</h1>
+      <p class="subtitle">A whimsical chess battle: you command the Unicorns, the computer controls the Goblins.</p>
+
+      <section class="status-panel">
+        <p id="status">Your turn (Unicorns)</p>
+        <button id="restartBtn" type="button">Restart Game</button>
+      </section>
+
+      <section class="board-wrap">
+        <div id="board" class="board" aria-label="Chess board"></div>
+      </section>
+
+      <section class="legend">
+        <h2>Pieces</h2>
+        <p><strong>Unicorns:</strong> ♔ Monarch, ♕ Enchanter, ♖ Tower, ♗ Mystic, ♘ Unicorn Knight, ♙ Spark</p>
+        <p><strong>Goblins:</strong> ♚ Boss, ♛ Warlock, ♜ Hut, ♝ Shaman, ♞ Wolf Rider, ♟ Snatcher</p>
+        <p>Capture the enemy monarch to win.</p>
+      </section>
+    </main>
+
+    <script src="script.js"></script>
+  </body>
+</html>
