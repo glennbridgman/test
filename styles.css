@@ -9,6 +9,7 @@
   --dark-square: #c9a7ff;
   --selected: #fff176;
   --legal: #80cbc4;
+  --warning: #b71c1c;
 }
 
 * {
@@ -53,12 +54,32 @@ h1 {
   border: 1px solid #ddccff;
   border-radius: 10px;
   padding: 0.65rem 0.85rem;
-  margin-bottom: 1rem;
+  margin-bottom: 0.75rem;
 }
 
 #status {
   margin: 0;
   font-weight: 600;
+}
+
+.check-warning {
+  min-height: 1.25rem;
+  margin: 0.2rem 0 0;
+  font-weight: 700;
+  color: var(--warning);
+}
+
+.captures {
+  background: #f9f4ff;
+  border: 1px dashed #d3b8ff;
+  border-radius: 10px;
+  padding: 0.5rem 0.8rem;
+  margin-bottom: 0.9rem;
+  font-size: 0.95rem;
+}
+
+.captures p {
+  margin: 0.15rem 0;
 }
 
 button {
@@ -100,6 +121,7 @@ button:hover {
   place-items: center;
   cursor: pointer;
   user-select: none;
+  position: relative;
 }
 
 .square.light {
@@ -122,10 +144,6 @@ button:hover {
   border-radius: 50%;
   background: color-mix(in srgb, var(--legal), transparent 35%);
   position: absolute;
-}
-
-.square {
-  position: relative;
 }
 
 .square.unicorn {
