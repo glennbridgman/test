@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Unicorns vs Goblins</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="game-shell">
+      <h1>🦄 Unicorns vs 👺 Goblins</h1>
+      <p class="subtitle">A whimsical chess battle: you command the Unicorns, the computer controls the Goblins.</p>
+
+      <section class="status-panel">
+        <div>
+          <p id="status">Your turn (Unicorns)</p>
+          <p id="checkWarning" class="check-warning" aria-live="polite"></p>
+        </div>
+        <button id="restartBtn" type="button">Restart Game</button>
+      </section>
+
+      <section class="captures" aria-label="Captured pieces tally">
+        <p><strong>Unicorn captures:</strong> <span id="unicornCaptures">—</span></p>
+        <p><strong>Goblin captures:</strong> <span id="goblinCaptures">—</span></p>
+      </section>
+
+      <section class="board-wrap">
+        <div id="board" class="board" aria-label="Chess board"></div>
+      </section>
+
+      <section class="legend">
+        <h2>Pieces</h2>
+        <p><strong>Unicorns:</strong> 🦄K Monarch, 🦄Q Enchanter, 🦄R Tower, 🦄B Mystic, 🦄N Unicorn Knight, 🦄P Spark</p>
+        <p><strong>Goblins:</strong> 👺K Boss, 👺Q Warlock, 👺R Hut, 👺B Shaman, 👺N Wolf Rider, 👺P Snatcher</p>
+        <p>Castling is enabled, and check warnings appear during battle.</p>
+      </section>
+    </main>
+
+    <script src="script.js"></script>
+  </body>
+</html>
