@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Monte Carlo Pi Visualizer</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="app">
+      <h1>Monte Carlo Estimation of π</h1>
+      <p>
+        Random points are sampled in a square. The fraction that land inside the quarter circle estimates
+        <strong>π ≈ 4 × inside / total</strong>.
+      </p>
+
+      <section class="controls">
+        <label>
+          Total samples
+          <input id="totalPoints" type="number" min="100" max="1000000" step="100" value="50000" />
+        </label>
+        <label>
+          Points per frame
+          <input id="batchSize" type="number" min="1" max="5000" step="1" value="300" />
+        </label>
+        <label>
+          Frame delay (ms)
+          <input id="frameDelay" type="range" min="0" max="200" step="1" value="16" />
+          <output id="frameDelayValue">16</output>
+        </label>
+        <div class="buttons">
+          <button id="startButton">Start</button>
+          <button id="pauseButton" disabled>Pause</button>
+          <button id="resetButton">Reset</button>
+        </div>
+      </section>
+
+      <section class="stats" aria-live="polite">
+        <div><span class="label">Samples:</span> <span id="samples">0</span></div>
+        <div><span class="label">Inside circle:</span> <span id="inside">0</span></div>
+        <div><span class="label">Current π estimate:</span> <span id="estimate">0.000000</span></div>
+        <div><span class="label">Absolute error:</span> <span id="error">0.000000</span></div>
+      </section>
+
+      <canvas id="plot" width="600" height="600" aria-label="Monte Carlo scatter plot"></canvas>
+    </main>
+
+    <script src="app.js"></script>
+  </body>
+</html>

@@ -1,0 +1,91 @@
+:root {
+  color-scheme: light;
+  font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+}
+
+body {
+  margin: 0;
+  background: #f6f7fb;
+  color: #1f2937;
+}
+
+.app {
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 1.5rem;
+}
+
+h1 {
+  margin-bottom: 0.5rem;
+}
+
+.controls {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 0.9rem;
+  background: #fff;
+  border: 1px solid #dbe2f0;
+  border-radius: 12px;
+  padding: 1rem;
+  margin: 1rem 0;
+}
+
+label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  font-size: 0.95rem;
+}
+
+input[type='number'],
+input[type='range'] {
+  width: 100%;
+}
+
+.buttons {
+  display: flex;
+  gap: 0.6rem;
+  align-items: flex-end;
+}
+
+button {
+  border: none;
+  border-radius: 8px;
+  padding: 0.6rem 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  background: #2563eb;
+  color: #fff;
+}
+
+button:disabled {
+  cursor: not-allowed;
+  background: #9aa7c7;
+}
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 0.6rem;
+  margin-bottom: 1rem;
+}
+
+.stats > div {
+  background: #fff;
+  border: 1px solid #dbe2f0;
+  border-radius: 10px;
+  padding: 0.7rem;
+}
+
+.label {
+  font-weight: 600;
+}
+
+canvas {
+  width: min(100%, 600px);
+  height: auto;
+  border: 1px solid #c9d2e3;
+  border-radius: 8px;
+  background: #ffffff;
+  display: block;
+}
