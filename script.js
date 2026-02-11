@@ -48,6 +48,12 @@ function createRunFromInputs() {
   const l2 = sanitize(controls.l2.value, 1, 0.05);
   const m1 = sanitize(controls.m1.value, 1, 0.05);
   const m2 = sanitize(controls.m2.value, 1, 0.05);
+  const initialState = {
+    theta1: degToRad(sanitize(controls.theta1.value, 120)),
+    theta2: degToRad(sanitize(controls.theta2.value, -10)),
+    omega1: sanitize(controls.omega1.value, 0),
+    omega2: sanitize(controls.omega2.value, 0),
+  };
 
   return {
     params: {
@@ -57,17 +63,27 @@ function createRunFromInputs() {
       m2,
       dt: sanitize(controls.dt.value, 0.01, 0.001, 0.05),
     },
-    state: {
-      theta1: degToRad(sanitize(controls.theta1.value, 120)),
-      theta2: degToRad(sanitize(controls.theta2.value, -10)),
-      omega1: sanitize(controls.omega1.value, 0),
-      omega2: sanitize(controls.omega2.value, 0),
-    },
+    state: { ...initialState },
+    initialState,
     phaseTrace: [],
     pendulumTrace: [],
     color: palette[nextColor++ % palette.length],
     steps: 0,
   };
+}
+
+function seedRunTraces(run) {
+  run.phaseTrace.length = 0;
+  run.pendulumTrace.length = 0;
+  for (let i = 0; i < 4; i += 1) {
+    updateRunTrails(run);
+  }
+}
+
+function resetRunToInitial(run) {
+  run.state = { ...run.initialState };
+  run.steps = 0;
+  seedRunTraces(run);
 }
 
 function derivatives({ theta1, theta2, omega1, omega2 }, { l1, l2, m1, m2 }) {
@@ -335,10 +351,11 @@ function stepSystem() {
 
 function addRun() {
   const run = createRunFromInputs();
-  for (let i = 0; i < 4; i += 1) {
-    updateRunTrails(run);
-  }
   runs.push(run);
+
+  for (const activeRun of runs) {
+    resetRunToInitial(activeRun);
+  }
 }
 
 document.getElementById("addRun").addEventListener("click", addRun);
