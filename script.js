@@ -64,23 +64,28 @@ function createRunFromInputs(options = {}) {
   const m2 = sanitize(controls.m2.value, 1, 0.05);
 
   const baseTheta1 = degToRad(sanitize(controls.theta1.value, 120));
+  const params = {
+    l1,
+    l2,
+    m1,
+    m2,
+    dt: sanitize(controls.dt.value, 0.01, 0.001, 0.05),
+    divergenceThreshold: sanitize(controls.divergenceThreshold.value, 1.4, 0.01, 20),
+    lyapunov: sanitize(controls.lyapunov.value, 1, 0.01, 5),
+  };
+
+  const initialState = {
+    theta1: options.theta1 ?? baseTheta1,
+    theta2: options.theta2 ?? degToRad(sanitize(controls.theta2.value, -10)),
+    omega1: options.omega1 ?? sanitize(controls.omega1.value, 0),
+    omega2: options.omega2 ?? sanitize(controls.omega2.value, 0),
+  };
+
   const run = {
     id: nextRunId++,
-    params: {
-      l1,
-      l2,
-      m1,
-      m2,
-      dt: sanitize(controls.dt.value, 0.01, 0.001, 0.05),
-      divergenceThreshold: sanitize(controls.divergenceThreshold.value, 1.4, 0.01, 20),
-      lyapunov: sanitize(controls.lyapunov.value, 1, 0.01, 5),
-    },
-    state: {
-      theta1: options.theta1 ?? baseTheta1,
-      theta2: options.theta2 ?? degToRad(sanitize(controls.theta2.value, -10)),
-      omega1: options.omega1 ?? sanitize(controls.omega1.value, 0),
-      omega2: options.omega2 ?? sanitize(controls.omega2.value, 0),
-    },
+    params,
+    initialState: { ...initialState },
+    state: { ...initialState },
     phaseTrace: [],
     pendulumTrace: [],
     color: palette[nextColor++ % palette.length],
@@ -494,10 +499,10 @@ function addPerturbationRun() {
   const deltaRad = degToRad(deltaDeg);
 
   const run = createRunFromInputs({
-    theta1: baseline.state.theta1 + deltaRad,
-    theta2: baseline.state.theta2,
-    omega1: baseline.state.omega1,
-    omega2: baseline.state.omega2,
+    theta1: baseline.initialState.theta1 + deltaRad,
+    theta2: baseline.initialState.theta2,
+    omega1: baseline.initialState.omega1,
+    omega2: baseline.initialState.omega2,
     role: "perturbation",
     perturbationDeg: deltaDeg,
     baselineId: baseline.id,
