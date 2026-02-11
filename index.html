@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Double Pendulum Divergence Webapp</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="container">
+      <h1>Double Pendulum Divergence Simulator</h1>
+      <p>
+        Sweep small initial perturbations against a chaotic baseline and compare empirical divergence
+        times with the theoretical relation <code>t ≈ ln(Δ*/δ₀) / λ</code>.
+      </p>
+
+      <section class="card controls">
+        <h2>Simulation Controls</h2>
+        <div class="grid">
+          <label>tmax (s)<input id="tmax" type="number" value="40" step="1" min="1" /></label>
+          <label>dt (s)<input id="dt" type="number" value="0.002" step="0.001" min="0.0001" /></label>
+          <label>Divergence threshold Δ*<input id="threshold" type="number" value="1" step="0.1" min="0.01" /></label>
+          <label>Min perturbation<input id="minPert" type="number" value="1e-8" step="any" min="1e-12" /></label>
+          <label>Max perturbation<input id="maxPert" type="number" value="1e-2" step="any" min="1e-12" /></label>
+          <label>Samples<input id="samples" type="number" value="20" min="2" max="100" /></label>
+          <label>Fit min distance<input id="fitMin" type="number" value="1e-6" step="any" min="1e-12" /></label>
+          <label>Fit max distance<input id="fitMax" type="number" value="1e-2" step="any" min="1e-10" /></label>
+        </div>
+        <button id="runBtn">Run Simulation</button>
+        <p id="status">Ready.</p>
+      </section>
+
+      <section class="card">
+        <h2>Divergence Time vs Perturbation</h2>
+        <canvas id="comparisonPlot" width="900" height="420"></canvas>
+      </section>
+
+      <section class="card">
+        <h2>Reference Perturbation Growth (for λ fit)</h2>
+        <canvas id="growthPlot" width="900" height="420"></canvas>
+      </section>
+
+      <section class="card">
+        <h2>Results</h2>
+        <p id="summary"></p>
+        <a id="downloadCsv" href="#" download="divergence_vs_perturbation.csv">Download CSV</a>
+        <div class="table-wrap">
+          <table id="resultsTable">
+            <thead>
+              <tr>
+                <th>Perturbation δ₀</th>
+                <th>Empirical divergence time (s)</th>
+                <th>Predicted divergence time (s)</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+
+    <script src="webapp.js"></script>
+  </body>
+</html>
