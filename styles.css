@@ -117,6 +117,21 @@ button:hover {
   height: 340px;
 }
 
+
+
+.hero-legend {
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.hero-legend p {
+  margin: 0;
+  font-size: clamp(2rem, 6vw, 4rem);
+  font-weight: 900;
+  letter-spacing: 0.04em;
+  color: #ffd166;
+}
+
 @media (max-width: 1080px) {
   .visuals {
     grid-template-columns: 1fr;
