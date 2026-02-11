@@ -97,6 +97,25 @@
       <p class="hint">
         Tip: keep all parameters identical and perturb only θ₁ by ~0.1° between runs.
       </p>
+      <details class="parameter-help">
+        <summary>Perturbation parameter guide</summary>
+        <ul>
+          <li>
+            <strong>Perturbation Δθ₁ (deg)</strong>: angular offset applied to θ₁ when creating a
+            perturbation run from the baseline (first run). Smaller values represent closer
+            initial conditions.
+          </li>
+          <li>
+            <strong>Divergence threshold</strong>: distance in the chosen phase-space metric used to
+            define when the perturbed run has become "totally divergent" from baseline.
+          </li>
+          <li>
+            <strong>Lyapunov estimate λ</strong>: assumed exponential separation rate used for the
+            theoretical prediction 
+            <code>t ≈ (1/λ) ln(Δ*/Δ0)</code>. Larger λ predicts faster divergence.
+          </li>
+        </ul>
+      </details>
     </section>
 
     <main class="visuals">

@@ -122,3 +122,27 @@ button:hover {
     grid-template-columns: 1fr;
   }
 }
+
+.parameter-help {
+  grid-column: 1 / -1;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: #0f141a;
+  padding: 0.5rem 0.7rem;
+  color: var(--muted);
+}
+
+.parameter-help summary {
+  cursor: pointer;
+  color: var(--text);
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.parameter-help ul {
+  margin: 0.5rem 0 0;
+  padding-left: 1.2rem;
+  line-height: 1.35;
+  font-size: 0.85rem;
+}
+
