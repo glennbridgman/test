@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Double Pendulum Chaos Explorer</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header>
+      <h1>Double Pendulum Chaos Explorer</h1>
+      <p>
+        Compare nearby initial conditions and watch trajectories diverge in phase
+        space.
+      </p>
+    </header>
+
+    <section class="controls">
+      <div class="control-group">
+        <label>
+          θ₁ (deg)
+          <input id="theta1" type="number" value="120" step="0.1" />
+        </label>
+        <label>
+          θ₂ (deg)
+          <input id="theta2" type="number" value="-10" step="0.1" />
+        </label>
+        <label>
+          ω₁ (rad/s)
+          <input id="omega1" type="number" value="0" step="0.01" />
+        </label>
+        <label>
+          ω₂ (rad/s)
+          <input id="omega2" type="number" value="0" step="0.01" />
+        </label>
+      </div>
+
+      <div class="control-group">
+        <label>
+          Length L₁
+          <input id="l1" type="number" value="1" step="0.1" min="0.1" />
+        </label>
+        <label>
+          Length L₂
+          <input id="l2" type="number" value="1" step="0.1" min="0.1" />
+        </label>
+        <label>
+          Mass m₁
+          <input id="m1" type="number" value="1" step="0.1" min="0.1" />
+        </label>
+        <label>
+          Mass m₂
+          <input id="m2" type="number" value="1" step="0.1" min="0.1" />
+        </label>
+      </div>
+
+      <div class="control-group">
+        <label>
+          Time step dt
+          <input id="dt" type="number" value="0.01" step="0.001" min="0.001" />
+        </label>
+        <label>
+          Draw speed (steps/frame)
+          <input id="substeps" type="number" value="3" min="1" max="25" step="1" />
+        </label>
+        <label>
+          Phase axes
+          <select id="phaseMode">
+            <option value="theta1-omega1">θ₁ vs ω₁</option>
+            <option value="theta2-omega2">θ₂ vs ω₂</option>
+            <option value="theta1-theta2">θ₁ vs θ₂</option>
+          </select>
+        </label>
+        <label>
+          Perturbation Δθ₁ (deg)
+          <input id="perturbation" type="number" value="0.1" step="0.01" min="0.0001" />
+        </label>
+      </div>
+
+      <div class="control-group">
+        <label>
+          Divergence threshold
+          <input id="divergenceThreshold" type="number" value="1.4" step="0.05" min="0.05" />
+        </label>
+        <label>
+          Lyapunov estimate λ (1/s)
+          <input id="lyapunov" type="number" value="1" step="0.05" min="0.05" />
+        </label>
+      </div>
+
+      <div class="buttons">
+        <button id="addRun">Add run</button>
+        <button id="addPerturbation">Add perturbation run</button>
+        <button id="pauseResume">Pause</button>
+        <button id="clearRuns">Clear all runs</button>
+      </div>
+      <p class="hint">
+        Tip: keep all parameters identical and perturb only θ₁ by ~0.1° between runs.
+      </p>
+    </section>
+
+    <main class="visuals">
+      <section class="panel">
+        <h2>Pendulum evolution</h2>
+        <canvas id="pendulumCanvas" width="620" height="620"></canvas>
+      </section>
+      <section class="panel">
+        <h2>Phase space overlay</h2>
+        <canvas id="phaseCanvas" width="620" height="620"></canvas>
+      </section>
+    </main>
+
+    <section class="panel metric-panel">
+      <h2>Perturbation size vs divergence time</h2>
+      <canvas id="divergenceCanvas" width="1260" height="340"></canvas>
+    </section>
+
+    <script src="script.js"></script>
+  </body>
+</html>
